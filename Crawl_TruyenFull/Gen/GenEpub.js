@@ -10,13 +10,8 @@ var option = {
             title: "About the author", // Optional
             author: "John Doe", // Optional
             data: "<h2>Charles Lutwidge Dodgson</h2>"
-            +"<div lang=\"en\">Better known by the pen name Lewis Carroll...</div>" // pass html string
         },
-        {
-            title: "Down the Rabbit Hole",
-            data: "<p>Alice was beginning to get very tired...</p>"
-        },
-]
+    ]
 };
 
 module.exports = {
