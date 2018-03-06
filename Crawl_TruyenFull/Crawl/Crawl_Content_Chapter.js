@@ -17,12 +17,12 @@ var crawlContent = new Crawler({
         } else {
             var $ = res.$;
             var content = $('div').html();
-            console.log(res.options.chapterId);
+            console.log('Succes to queue genEpub');
             var db = res.options.database;
             chapterDb.findChapterWithId(db, res.options.chapterId).then(function (result) {
-                if(result.length > 0) {
-                    genEpub.saveChapterContent(content, chapter['title'], res.options.storyId, res.options.chapterId);
-                }
+                //     console.log('Succes find result');
+                    genEpub.saveChapterContent(content, result['title'], res.options.storyId, res.options.chapterId);
+
             })
         }
     }
@@ -42,7 +42,7 @@ var c = new Crawler({
             var nChaptId = contentData.match(regChapt)[0].match(regChaptId)[0];
             var regChapTime = /(?:\w+)-(?:\w+)-(?:\w+) (?:\w+):(?:\w+):(?:\w+)/;
             var chaptTime = contentData.match(regChapTime)[0].replace(/-| |:/gi, "");
-            console.log(res.options.chapterId);
+            console.log('succces to queue crawlContent');
             crawlContent.queue({
                 uri: 'http://cf.sstruyen.com/doc-truyen/index.php?ajax=ct&id=' + nChaptId + "&t=" + chaptTime,
                 storyId: res.options.storyId,

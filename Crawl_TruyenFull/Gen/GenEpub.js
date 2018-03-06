@@ -22,7 +22,7 @@ module.exports = {
             data: data
         }]
         console.log('Success creat epub File')
-        new Epub(option, "../Gen/DataChapter/"+storyId+"/"+chapterId+".epub");
+        new Epub(option, "../Gen/Data/"+storyId+"."+chapterId+".epub");
     }
 }
 
