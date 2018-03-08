@@ -16,30 +16,29 @@ module.exports = {
     },
 
     updateStoryWithId: function (db, storyId, numberOfSplit, category, author, totalChapter, content, urlImage, view,status) {
-        // return MongoClient.connect('mongodb://localhost:27017/TodoApp').then(function(db) {
         var dbo = db.db('DBMongo');
-            var collection = dbo.collection('Story');
-            collection.findOneAndUpdate({id : storyId},
-                {
-                    $set: {
-                        numberofSplitChapter: numberOfSplit,
-                        category: category,
-                        totalChapter: totalChapter,
-                        content: content,
-                        urlImage: urlImage,
-                        view: view,
-                        status: status,
-                        author: author
-                    },
+        var collection = dbo.collection('Story');
+        collection.findOneAndUpdate({id: storyId},
+            {
+                $set: {
+                    numberofSplitChapter: numberOfSplit,
+                    category: category,
+                    totalChapter: totalChapter,
+                    content: content,
+                    urlImage: urlImage,
+                    view: view,
+                    status: status,
+                    author: author
                 },
+            },
             {
                 new: false
             }, function (err, doc) {
-                    if(err) {
-                        return console.log(err);
-                    }
+                if (err) {
+                    return console.log(err);
                 }
-            );
+            }
+        );
     },
 
     updateForCrawlNewChapter: function (db, storyId, numberOfSplit, category, author, totalChapter, content, urlImage, view,status) {

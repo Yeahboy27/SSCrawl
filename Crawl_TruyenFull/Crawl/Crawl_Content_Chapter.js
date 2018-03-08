@@ -17,13 +17,7 @@ var crawlContent = new Crawler({
         } else {
             var $ = res.$;
             var content = $('div').html();
-            console.log('Succes to queue genEpub');
-            var db = res.options.database;
-            chapterDb.findChapterWithId(db, res.options.chapterId).then(function (result) {
-                //     console.log('Succes find result');
-                    genEpub.saveChapterContent(content, result['title'], res.options.storyId, res.options.chapterId);
-
-            })
+            genEpub.saveChapterContent(content, res.options.title, res.options.storyId, res.options.chapterId)
         }
     }
 })
@@ -42,27 +36,30 @@ var c = new Crawler({
             var nChaptId = contentData.match(regChapt)[0].match(regChaptId)[0];
             var regChapTime = /(?:\w+)-(?:\w+)-(?:\w+) (?:\w+):(?:\w+):(?:\w+)/;
             var chaptTime = contentData.match(regChapTime)[0].replace(/-| |:/gi, "");
-            console.log('succces to queue crawlContent');
             crawlContent.queue({
                 uri: 'http://cf.sstruyen.com/doc-truyen/index.php?ajax=ct&id=' + nChaptId + "&t=" + chaptTime,
                 storyId: res.options.storyId,
                 chapterId: res.options.chapterId,
-                database: res.options.database
+                database: res.options.database,
+                title: res.options.title
             });
         }
     done();
 }
 })
 
-// c.queue('http://sstruyen.com/doc-truyen/ngon-tinh/vuong-bai-han-phi-manh-phu-duong-thanh/chuong-6-bong-dem-kinh-hong/453462.html');
 
 module.exports =  {
-    crawlContentChapter: function (url, storyId, chapterId, database) {
-        c.queue({
-            uri: url,
-            storyId: storyId,
-            chapterId: chapterId,
-            database: database
-        });
+    crawlContentChapter: function (chapterId, database) {
+        chapterDb.findChapterWithId(database, chapterId).then(function (result) {
+            c.queue({
+                uri: result['url'],
+                storyId: result['storyId'],
+                chapterId: chapterId,
+                database: database,
+                title: result['title']
+            });
+        })
+
     }
 }
